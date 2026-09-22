@@ -1,0 +1,4 @@
+# Preserve archived bytes and checksums on every operating system.
+vendor/** -text
+gradlew text eol=lf
+gradlew.bat text eol=crlf
