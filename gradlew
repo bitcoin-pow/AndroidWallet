@@ -120,6 +120,21 @@ CLASSPATH="\\\"\\\""
 
 
 # Determine the Java command to use to start the JVM.
+# Android Studio bundles a JDK that macOS's java launcher may not discover.
+# Respect an explicit JAVA_HOME; otherwise use Studio's JDK when available.
+if "$darwin" && [ -z "$JAVA_HOME" ] ; then
+    for studio_java_home in \
+        "/Applications/Android Studio.app/Contents/jbr/Contents/Home" \
+        "$HOME/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+    do
+        if [ -x "$studio_java_home/bin/java" ] ; then
+            JAVA_HOME=$studio_java_home
+            export JAVA_HOME
+            break
+        fi
+    done
+fi
+
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
         # IBM's JDK on AIX uses strange locations for the executables
